@@ -1,29 +1,31 @@
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class worker{
-  String location = '';
-  String temp = '';
-  String humidity = '';
-  String air_speed = '';
-  String description = '';
-  String main = '';
+import 'package:http/http.dart';
 
+class worker{
+  late String location;
   //Constructor
   worker({required this.location}){
     location = this.location;
   }
 
+  late String temp;
+  late String humidity;
+  late String air_speed;
+  late String description;
+  late String main;
 
   Future<void> getData() async
   {
     try{
-      Response response = await get("http://api.openweathermap.org/data/2.5/weather?q=$location&appid=51f3041e24f88a86bc102ae3642954ea" as Uri);
+      Response response = await get(Uri.parse("http://api.openweathermap.org/data/2.5/weather?q=$location&appid=51f3041e24f88a86bc102ae3642954ea"));
       Map data = jsonDecode(response.body);
 
       //Getting temperature and humidity
       Map temp_data = data["main"];
       String getHumidity = temp_data['humidity'].toString();
+
       double getTemp = temp_data["temp"] - 273.15; // TO GET TEMP IN DEGREE CELSIUS
 
       //GETTING AIR_SPEED
@@ -33,15 +35,15 @@ class worker{
       //GETTING DESCRIPTION
       List weather_data = data['weather'];
       Map weather_main_data = weather_data[0];
-      String getMain_desc = weather_main_data['main'];
+      String getMain_des = weather_main_data['main'];
       String getDesc = weather_main_data['description'];
 
       //ASSIGNING VALUES
-      temp = getTemp.toString();
-      humidity = getHumidity;
-      air_speed = getAir_speed.toString();
-      description = getDesc.toString();
-      main = getMain_desc.toString();
+      temp = getTemp.toString().substring(0,5); //C
+      humidity = getHumidity; //%
+      air_speed = getAir_speed.toString(); //KM/H
+      description = getDesc;
+      main = getMain_des;
 
     }catch (e){
       temp = "Can't find Data";
