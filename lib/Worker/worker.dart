@@ -54,7 +54,7 @@ class worker{
       air_speed = "Error Occured !";
       description = "Error Occured !";
       main = "Error Occured !";
-      weather_icon = "03n";
+      weather_icon = "09d";
 
     }
   }
