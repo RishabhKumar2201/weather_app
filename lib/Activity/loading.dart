@@ -10,6 +10,7 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
+
   late String temp;
   late String hum;
   late String air_speed;
@@ -68,7 +69,8 @@ class _LoadingState extends State<Loading> {
     return MaterialApp(
       home: Scaffold(
 
-        body: Container(
+        body:
+        Container(
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -110,3 +112,6 @@ class _LoadingState extends State<Loading> {
     );
   }
 }
+
+
+

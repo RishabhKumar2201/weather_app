@@ -298,6 +298,9 @@ class _HomeState extends State<Home> {
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'dart:collection';
+import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 
 class Home extends StatefulWidget {
@@ -355,7 +358,10 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
+        body: /* RefreshIndicator(
+              onRefresh: _refreshTemp,
+              child: */
+            SingleChildScrollView(
           child: SafeArea(
               child: Container(
             decoration: const BoxDecoration(
@@ -379,10 +385,10 @@ class _HomeState extends State<Home> {
                       GestureDetector(
                         onTap: () {
                           if (searchController.text == '' ||
-                              searchController.text == ' '  ||
+                              searchController.text == ' ' ||
                               searchController.text == '  ' ||
                               searchController.text == '   ' ||
-                              searchController.text == '    '){
+                              searchController.text == '    ') {
                             print("Blank Search");
                           } else {
                             Navigator.pushReplacementNamed(
