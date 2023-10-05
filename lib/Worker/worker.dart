@@ -1,6 +1,5 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:http/http.dart';
 
 class worker{
@@ -15,6 +14,7 @@ class worker{
   late String air_speed;
   late String description;
   late String main;
+  late String weather_icon;
 
   Future<void> getData() async
   {
@@ -38,19 +38,23 @@ class worker{
       String getMain_des = weather_main_data['main'];
       String getDesc = weather_main_data['description'];
 
+
       //ASSIGNING VALUES
       temp = getTemp.toString().substring(0,5); //C
       humidity = getHumidity; //%
       air_speed = getAir_speed.toString(); //KM/H
       description = getDesc;
       main = getMain_des;
+      weather_icon = weather_main_data['icon'];
+
 
     }catch (e){
-      temp = "Can't find Data";
-      humidity = "Can't find Data";
-      air_speed = "Can't find Data";
-      description = "Can't find Data";
-      main = "Can't find Data";
+      temp = "Error Occured !";
+      humidity = "Error!";
+      air_speed = "Error Occured !";
+      description = "Error Occured !";
+      main = "Error Occured !";
+      weather_icon = "03n";
 
     }
   }

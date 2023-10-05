@@ -1,3 +1,5 @@
+/*import 'dart:js';*/
+
 import 'package:flutter/material.dart';
 import 'package:myweather_app/Activity/home.dart';
 import 'package:myweather_app/Activity/loading.dart';
@@ -8,7 +10,7 @@ void main() {
     routes: {
       "/" : (context) => const Loading(),
       "/home" : (context) => const Home(),
-
+      "/loading": (context) => const Loading(),
     },
   ));
 }

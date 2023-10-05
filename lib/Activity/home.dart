@@ -10,8 +10,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  SearchController searchController = SearchController();
-  int counter = 0;
+  TextEditingController searchController = new TextEditingController();
 
   @override
   void initState() {
@@ -29,10 +28,19 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    Object? info = ModalRoute.of(context)?.settings.arguments;
+    //Object? info = ModalRoute.of(context)?.settings.arguments;
+    var info = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    String air_speed = (info?['air_speed_value']).toString().substring(0,5);
+    String temp = info?['temp_value'];
+    String humidity = (info?['hum_value']);
+    String main = info?['main_value'];
+    String des = info?['desc_value'];
+    String icon = info?['icon_value'];
+    String location = info?['city_value'];
+
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      //resizeToAvoidBottomInset: false,
       appBar: AppBar(
         toolbarHeight: 0,
         flexibleSpace: Container(
@@ -48,8 +56,8 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
-      body: /*SingleChildScrollView(
-          child: */
+      body: SingleChildScrollView(
+          child:
           SafeArea(
               child: Container(
         decoration: const BoxDecoration(
@@ -72,7 +80,11 @@ class _HomeState extends State<Home> {
                     onTap: () {
                       if ((searchController.text).replaceAll(" ", "") == "") {
                         print("Blank Search");
-                      } else {}
+                      } else {
+                        Navigator.pushNamed(context, "/loading", arguments:
+                          searchController.text,
+                        );
+                      }
                     },
                     child: Container(
                       child: Icon(
@@ -94,30 +106,34 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
+
             Row(
               children: [
                 Expanded(
                   child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 25),
-                      padding: EdgeInsets.all(27),
+                      padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Colors.white.withOpacity(0.5),
                       ),
                       child: Row(
                         children: [
-                          Text("Network Imageadd:url"),
+                          Image.network("https://openweathermap.org/img/wn/$icon@2x.png"),
+                          SizedBox(
+                            width: 20,
+                          ),
                           Column(
                             children: [
                               Text(
-                                "Scattered Clouds",
+                               des,
                                 style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
+                                    fontSize: 22, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                "in Ballia",
+                                'in '+location,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
+                                    fontWeight: FontWeight.bold, fontSize: 22),
                               )
                             ],
                           ),
@@ -160,7 +176,7 @@ class _HomeState extends State<Home> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "36.7",
+                                  temp,
                                   style: TextStyle(
                                       fontSize: 60,
                                       fontWeight: FontWeight.bold),
@@ -210,7 +226,7 @@ class _HomeState extends State<Home> {
                             height: 30,
                           ),
                           Text(
-                            "29.5",
+                            air_speed,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 30),
                           ),
@@ -248,7 +264,7 @@ class _HomeState extends State<Home> {
                             height: 30,
                           ),
                           Text(
-                            "70 %",
+                            humidity+" %",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 30),
                           ),
@@ -274,6 +290,6 @@ class _HomeState extends State<Home> {
           ],
         ),
       )),
-    );
+    ));
   }
 }

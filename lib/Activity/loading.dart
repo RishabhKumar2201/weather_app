@@ -15,9 +15,11 @@ class _LoadingState extends State<Loading> {
   late String air_speed;
   late String desc;
   late String main;
+  late String icon;
+  String city = 'Ballia';
 
-  void startApp() async {
-    worker instance = worker(location: "ballia");
+  void startApp(String city) async {
+    worker instance = worker(location: city);
     await instance.getData();
 
     setState(() {
@@ -26,13 +28,18 @@ class _LoadingState extends State<Loading> {
       air_speed = instance.air_speed;
       desc = instance.description;
       main = instance.main;
+      icon = instance.weather_icon;
+
+
       Future.delayed(Duration(seconds: 2), (){
         Navigator.pushReplacementNamed(context, '/home', arguments: {
           'temp_value': temp,
           'hum_value': hum,
           'air_speed_value': air_speed,
-          'desc_value': desc,
-          'main_value': main
+          'desc_value': desc[0].toUpperCase()+desc.substring(1),
+          'main_value': main,
+          'icon_value': icon,
+          'city_value': city[0].toUpperCase()+city.substring(1)
         });
       });
 
@@ -42,14 +49,25 @@ class _LoadingState extends State<Loading> {
   @override
   void initState() {
     // TODO: implement initState
-    startApp();
+    //startApp(city);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    Object? search = ModalRoute.of(context)?.settings.arguments;
+    if (search is String) {
+      city = search as String;
+      startApp(city);
+      // Now you can safely use 'myString'
+    } else {
+      startApp(city);
+      // Handle the case where 'myObject' is not a String
+    }
+
     return MaterialApp(
       home: Scaffold(
+
         body: Container(
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(
